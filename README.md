@@ -1,2 +1,1 @@
-# dollsnews.github.io
-site
+# about-dolls
