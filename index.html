@@ -6,7 +6,7 @@
     <meta name="description" content="Кукла года! Бутлег или Нет?"/>
     <meta name="robots" content="noodp"/>
     <link rel="canonical" href="http://dollsnews.su/" />
-    <style></style>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/css/uikit.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/js/uikit.min.js"></script>
@@ -19,6 +19,16 @@
     <!-- Скрипт ВК комментариев - конец -->
   </head>
   <body>
+    <div id="loader" class="uk-height-viewport uk-width-1-1 uk-position-absolute" style="overflow: hidden; background: white; transition: all 0.5s; z-index: 99999;">
+        <div class="bubblingG uk-position-center">
+            <span id="bubblingG_1">
+            </span>
+            <span id="bubblingG_2">
+            </span>
+            <span id="bubblingG_3">
+            </span>
+        </div>
+    </div>
     <div class="uk-text-left" uk-grid>
         <div class="uk-width-1-4@m uk-visible@m uk-height-viewport" style="margin-right: -40px">
 
@@ -63,11 +73,15 @@
               </div>
               <div class="uk-text-left" uk-grid>
                   <div class="uk-width-expand@m uk-width-expand@xl">
-                      <div class="uk-card">
+                      <div class="uk-card uk-margin-small-top">
 
                           <!-- Блок трансляции - начало -->
-                          <div class="youtube-embed">
-                            <iframe width="500px" height="100px" src="https://www.youtube.com/embed/qjUyAUb6m8E" frameborder="0" allowfullscreen></iframe>
+                          <div id="youtube" class="youtube-embed uk-hidden">
+                            <iframe id="youtube-conf" width="500px" height="100px" src="https://www.youtube.com/embed/qjUyAUb6m8E?autoplay=1" frameborder="0" allowfullscreen></iframe>
+                          </div>
+                          <div id="cover-image" class="uk-cover-container">
+                              <canvas width="1280" height="720"></canvas>
+                              <img src="img/fon2.jpg" alt="" uk-cover>
                           </div>
                           <!-- Блок трансляции - конец -->
 
@@ -94,12 +108,7 @@
                                       <button class="uk-modal-close-default uk-close-large" type="button" uk-close></button>
                                   </div>
                                   <div class="uk-modal-body">
-
-
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-
-
+                                      <p>Подробнее <a class="uk-button uk-button-danger" href="http://bjdleaksbranch.diary.ru/p213885528.htm">тут</a> и <a class="uk-button uk-button-danger" href="https://vk.com/wall-18803320_276089">тут</a></p>
                                   </div>
                                   <div class="uk-modal-footer uk-text-right">
                                       <button class="uk-button uk-button-primary uk-modal-close" type="button">Закрыть</button>
@@ -292,5 +301,23 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+      window.onload = function() {
+        document.getElementById("loader").style.opacity = 0;
+        setTimeout(function(){document.getElementById("loader").style.display = 'none';},500);
+      };
+
+      checker();
+      function checker(){
+        var t = Math.floor((new Date()).getTime() / 1000);
+        if (t >= 1511805540){ //1511805540
+          document.getElementById("youtube").classList.remove("uk-hidden");
+          var element = document.getElementById("cover-image");
+          element.parentNode.removeChild(element);
+        } else {
+          setTimeout(function(){checker();}, 10000);
+        }
+      }
+    </script>
   </body>
 </html>
