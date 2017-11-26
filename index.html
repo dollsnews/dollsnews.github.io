@@ -20,7 +20,7 @@
     <!-- Скрипт ВК - конец -->
   </head>
   <body>
-    <div id="loader" class="uk-height-viewport uk-width-1-1 uk-position-absolute" style="overflow: hidden; background: white; transition: all 0.5s; z-index: 1;">
+    <div id="loader" class="uk-height-viewport uk-width-1-1 uk-position-absolute" style="overflow: hidden; background: white; transition: all 0.5s; z-index: 2;">
         <div class="bubblingG uk-position-center" style="z-index: 2;">
             <span id="bubblingG_1">
             </span>
@@ -77,18 +77,43 @@
                       <div class="uk-card uk-margin-small-top">
 
                           <!-- Блок трансляции - начало -->
-                          <div id="youtube" class="youtube-embed uk-hidden">
-                            <iframe id="youtube-conf" width="500px" height="100px" src="https://www.youtube.com/embed/qjUyAUb6m8E?autoplay=1" frameborder="0" allowfullscreen></iframe>
-                          </div>
-                          <div id="cover-image" class="uk-cover-container">
+                          <div id="cover-image" class="uk-cover-container uk-position-absolute" style="overflow: hidden; background: white; transition: all 0.5s; z-index:1;">
                               <canvas width="1280" height="720"></canvas>
                               <img src="img/fon2.jpg" alt="" uk-cover>
+                              <div class="uk-overlay uk-overlay-default uk-position-bottom">
+                                  <div class="uk-width-1-1 uk-text-center">
+                                      <h3 class="uk-text-bold uk-text-danger">Осталось до трансляции:</h3>
+                                  </div>
+                                  <div class="uk-container uk-container-small uk-text-center">
+                                      <div id="clockdiv" class="uk-margin-large-left uk-margin-large-right" uk-grid>
+                                          <div class="uk-width-1-4 uk-card uk-card-body">
+                                              <span class="days uk-text-bold uk-text-large"></span>
+                                              <p class="uk-text-bold uk-text-danger">дни</p>
+                                          </div>
+                                          <div class="uk-width-1-4 uk-card uk-card-body">
+                                              <span class="hours uk-text-bold uk-text-large"></span>
+                                              <p class="uk-text-bold uk-text-danger">часы</p>
+                                          </div>
+                                          <div class="uk-width-1-4 uk-card uk-card-body">
+                                              <span class="minutes uk-text-bold uk-text-large"></span>
+                                              <p class="uk-text-bold uk-text-danger">минуты</p>
+                                          </div>
+                                          <div class="uk-width-1-4 uk-card uk-card-body">
+                                              <span class="seconds uk-text-bold uk-text-large"></span>
+                                              <p class="uk-text-bold uk-text-danger">секунды</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div id="youtube" class="youtube-embed" style="transition: all 0.5s; opacity:0;">
+                            <iframe id="youtube-conf" width="500px" height="100px" src="https://www.youtube.com/embed/qjUyAUb6m8E?autoplay=1" frameborder="0" allowfullscreen></iframe>
                           </div>
                           <!-- Блок трансляции - конец -->
 
                           <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
                           <script src="//yastatic.net/share2/share.js"></script>
-                          <div class="ya-share2 uk-margin-small-top uk-margin-small-bottom" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
+                          <div class="ya-share2 uk-margin-small-bottom uk-margin-small-top" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
 
                           <div uk-grid>
                             <div class="uk-width-1-3@m">
@@ -304,20 +329,57 @@
     </div>
     <script type="text/javascript">
       window.onload = function() {
+        var deadline = new Date(1511805540000); //1511805540000
+        initializeClock('clockdiv', deadline);
         document.getElementById("loader").style.opacity = 0;
-        setTimeout(function(){document.getElementById("loader").style.display = 'none';},500);
+        setTimeout(function(){document.getElementById("loader").style.display = 'none'; initializeClock('clockdiv', deadline);},500);
       };
 
-      checker();
-      function checker(){
-        var t = Math.floor((new Date()).getTime() / 1000);
-        if (t >= 1511805540){ //1511805540
-          document.getElementById("youtube").classList.remove("uk-hidden");
-          var element = document.getElementById("cover-image");
-          element.parentNode.removeChild(element);
-        } else {
-          setTimeout(function(){checker();}, 10000);
+      function getTimeRemaining(endtime) {
+        var t = Date.parse(endtime) - Date.parse(new Date());
+        var seconds = Math.floor((t / 1000) % 60);
+        var minutes = Math.floor((t / 1000 / 60) % 60);
+        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        return {
+          'total': t,
+          'days': days,
+          'hours': hours,
+          'minutes': minutes,
+          'seconds': seconds
+        };
+      }
+
+      function initializeClock(id, endtime) {
+        var clock = document.getElementById(id);
+        var daysSpan = clock.querySelector('.days');
+        var hoursSpan = clock.querySelector('.hours');
+        var minutesSpan = clock.querySelector('.minutes');
+        var secondsSpan = clock.querySelector('.seconds');
+
+        function updateClock() {
+          var t = getTimeRemaining(endtime);
+
+          daysSpan.innerHTML = t.days;
+          hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+          secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+          if (t.total <= 0) {
+            clearInterval(timeinterval);
+            delCover();
+          }
         }
+
+        updateClock();
+        var timeinterval = setInterval(updateClock, 1000);
+      }
+
+      function delCover() {
+          document.getElementById("youtube").style.opacity = 1;
+          var image = document.getElementById("cover-image");
+          image.style.opacity = 0;
+          setTimeout(function(){image.style.display = 'none';},500);
       }
     </script>
   </body>
