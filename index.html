@@ -106,7 +106,7 @@
                               </div>
                           </div>
                           <div id="youtube" class="youtube-embed" style="transition: all 0.5s; opacity:0;">
-                            <iframe id="youtube-conf" width="500px" height="100px" src="https://www.youtube.com/embed/2_bp_JvvWWs?autoplay=1" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="youtube-conf" width="500px" height="100px" src="https://www.youtube.com/embed/2_bp_JvvWWs" frameborder="0" allowfullscreen></iframe>
                           </div>
                           <!-- Блок трансляции - конец -->
 
@@ -121,7 +121,7 @@
                                       <button class="uk-modal-close-default uk-close-large" type="button" uk-close></button>
                                   </div>
                                   <div class="uk-modal-body">
-                                      <p class="uk-text-bold uk-text-danger uk-text-large uk-text-center">По техническим причинам, конференция переносится на 29.11.2017 20:00 по Москве!</br>Благодарим за понимание!</p>
+                                      <p class="uk-text-bold uk-text-danger uk-text-large uk-text-center">В общем, коллекционер, которая приобрела куклу от Майкиной Алёны уже в курсе всей ситуации. Хотя участники видео-трансляции приняли решение не беспокоить человека, но видимо некоторые зрители решили по другому. Что из этого всего вытечет мы не знаем, но хватит заваливать директ коллекционера письмами с просветлениями</p>
                                   </div>
                                   <div class="uk-modal-footer uk-text-right">
                                       <button class="uk-button uk-button-primary uk-modal-close" type="button">Закрыть</button>
@@ -351,7 +351,7 @@
         setTimeout(function(){
           document.getElementById("loader").style.display = 'none';
           initializeClock('clockdiv', deadline);
-          //setTimeout(function(){UIkit.modal(document.getElementById("alerting")).show(); setTimeout(function(){UIkit.modal(document.getElementById("alerting")).hide();},7000);},2000);
+          setTimeout(function(){UIkit.modal(document.getElementById("alerting")).show(); setTimeout(function(){UIkit.modal(document.getElementById("alerting")).hide();},7000);},2000);
         },500);
       };
 
